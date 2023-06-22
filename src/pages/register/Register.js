@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const signUp = (event) => {
     event.preventDefault();
@@ -17,7 +19,7 @@ const Register = () => {
           email: email,
         })
         .then(({ data }) => {
-          alert(data.message);
+          navigate("/login");
         })
         .catch((error) => {
           console.log(error);
