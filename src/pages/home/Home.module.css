@@ -1,0 +1,33 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.form input {
+  width: 40%;
+}
+
+.form input[type="text"] {
+  height: 300px;
+}
+
+.form div {
+  margin-top: 10px;
+}
+
+.postImage {
+  width: 400px;
+  height: 200px;
+}

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../axiosInstance";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 const Login = () => {
@@ -17,8 +17,8 @@ const Login = () => {
 
   const signIn = (event) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:5500/api/auth/login", { email, password })
+    axiosInstance
+      .post("/auth/login", { email, password })
       .then(({ data }) => {
         console.log(data.user);
         setUser(data.user);
@@ -33,17 +33,26 @@ const Login = () => {
 
   return (
     <form>
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={signIn}>Sign In</button>
+      <div>
+        <input
+          type="text"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={signIn}>Sign In</button>
+      </div>
+      <div>
+        <Link to={"/register"}>Register</Link>
+      </div>
     </form>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../axiosInstance";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -12,8 +12,8 @@ const Register = () => {
   const signUp = (event) => {
     event.preventDefault();
     if (password == confirmPassword) {
-      axios
-        .post("http://localhost:5500/api/auth/register", {
+      axiosInstance
+        .post("/auth/register", {
           username: username,
           password: password,
           email: email,
@@ -32,27 +32,40 @@ const Register = () => {
 
   return (
     <form>
-      <input
-        type="text"
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <button onClick={signUp}>Sign Up</button>
+      <div>
+        <input
+          type="text"
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <div>
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={signUp}>Sign Up</button>
+      </div>
+      <div>
+        <Link to={"/login"}>Login</Link>
+      </div>
     </form>
   );
 };
