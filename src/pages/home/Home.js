@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import axiosInstance from "../../axiosInstance";
 import { SERVER_URL } from "../../config/constants";
@@ -68,6 +68,9 @@ const Home = () => {
       <div className={styles.header}>
         <h1>Bonjour {user?.username}</h1>
         <div>
+          <Link to={`/profile/${user?.id}`}>Profile</Link>
+        </div>
+        <div>
           <button onClick={logout}>Logout</button>
         </div>
       </div>
@@ -97,7 +100,7 @@ const Home = () => {
         {posts.map((post) => (
           <div>
             <div>
-              <span>{post.username}</span>
+              <Link to={`/profile/${post.user_id}`}>{post.username}</Link>
               <p>{dayjs(post.created_at).fromNow()}</p>
             </div>
             <div>

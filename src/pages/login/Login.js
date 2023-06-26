@@ -4,10 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 const Login = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (user || localStorage.getItem("user")) {

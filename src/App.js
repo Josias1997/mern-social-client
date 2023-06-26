@@ -5,6 +5,7 @@ import Home from "./pages/home/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthContext from "./context/AuthContext";
 import { useEffect, useState } from "react";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   const [user, setUser] = useState();
@@ -20,6 +21,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
