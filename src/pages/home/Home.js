@@ -23,7 +23,7 @@ const Home = () => {
 
   const getPosts = async () => {
     try {
-      const { data } = await axiosInstance.get("/posts");
+      const { data } = await axiosInstance.get(`/posts`);
       console.log(data.posts);
       setPosts(data.posts);
     } catch (error) {

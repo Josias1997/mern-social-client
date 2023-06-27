@@ -3,6 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../axiosInstance";
 import { SERVER_URL } from "../../config/constants";
 import AuthContext from "../../context/AuthContext";
+import dayjs from "dayjs";
+const relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
 
 const Profile = () => {
   const { userId } = useParams();
@@ -12,10 +15,30 @@ const Profile = () => {
   const [website, setWebsite] = useState("");
   const [profileImage, setProfileImage] = useState();
   const [coverImage, setCoverImage] = useState();
+  const [posts, setPosts] = useState([]);
+  const [followed, setFollowed] = useState();
 
   useEffect(() => {
     getUserInfo();
+    getUserPosts();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      testRelationship();
+    }
+  }, [user]);
+
+  const testRelationship = async () => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/users/test-relationship/${user.id}/${userId}`
+      );
+      setFollowed(data.followed);
+    } catch (error) {
+      alert(error.response?.data.message);
+    }
+  };
 
   const getUserInfo = async () => {
     try {
@@ -43,6 +66,35 @@ const Profile = () => {
         ...user,
         ...data.profile,
       });
+      window.location.reload();
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
+  const getUserPosts = async () => {
+    try {
+      const { data } = await axiosInstance.get(`/posts/user/${userId}`);
+      setPosts(data.posts);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
+  const deletePost = async (postId) => {
+    try {
+      await axiosInstance.delete(`/posts/${postId}`);
+      window.location.reload();
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
+  const followOrUnfollow = async () => {
+    try {
+      const { data } = await axiosInstance.post(
+        `/users/follow-unfollow/${user.id}/${userId}`
+      );
       window.location.reload();
     } catch (error) {
       alert(error.response.data.message);
@@ -108,8 +160,32 @@ const Profile = () => {
           </form>
         </div>
       ) : (
-        <button>Follow</button>
+        <button onClick={followOrUnfollow}>
+          {followed ? "Unfollow" : "Follow"}
+        </button>
       )}
+      <div className="posts">
+        {posts.map((post) => (
+          <div>
+            <div>
+              <Link to={`/profile/${post.user_id}`}>{post.username}</Link>
+              <p>{dayjs(post.created_at).fromNow()}</p>
+              <p>{post.description}</p>
+            </div>
+            <div>
+              <img
+                src={`${SERVER_URL}${post.image}`}
+                style={{
+                  width: "300px",
+                }}
+              />
+            </div>
+            {userId == user?.id ? (
+              <button onClick={() => deletePost(post.id)}>Delete Post</button>
+            ) : null}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
