@@ -3,10 +3,7 @@ import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import axiosInstance from "../../axiosInstance";
-import { SERVER_URL } from "../../config/constants";
-import dayjs from "dayjs";
-let relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime);
+import Post from "../../components/Post";
 
 const Home = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -98,18 +95,7 @@ const Home = () => {
       </form>
       <div className="posts">
         {posts.map((post) => (
-          <div>
-            <div>
-              <Link to={`/profile/${post.user_id}`}>{post.username}</Link>
-              <p>{dayjs(post.created_at).fromNow()}</p>
-            </div>
-            <div>
-              <img
-                src={`${SERVER_URL}${post.image}`}
-                className={styles.postImage}
-              />
-            </div>
-          </div>
+          <Post key={post.id} post={post} />
         ))}
       </div>
     </div>
